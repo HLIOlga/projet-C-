@@ -1,13 +1,14 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "button.hh"
 
 using namespace std;
 SDL_Window * window = NULL;
 SDL_Renderer *renderer = NULL;
-SDL_Surface *background = NULL, *playbutton = NULL;
-SDL_Texture * backtext = NULL, *playtext = NULL;
-SDL_Rect PlayRect={357,196,207,126};
+SDL_Surface *background = NULL;
+SDL_Texture * backtext = NULL;
+Button playbutton(357,196,207,126);
 
 void MelangeTaupe(){
   
@@ -53,29 +54,10 @@ bool DrawBackGround(){
    return true;
 }
 
-bool PutButton(){
-  DrawBackGround();
-  playbutton = IMG_Load("play.jpg");
-  Uint32 color_key=SDL_MapRGB(playbutton->format,255,255,255);
-  SDL_SetColorKey(playbutton,SDL_TRUE,color_key);
-  if (playbutton==NULL)    return false;
-  playtext=SDL_CreateTextureFromSurface(renderer,playbutton);
-  if (backtext==NULL)     return false;
-  SDL_RenderCopy(renderer,playtext,NULL,&PlayRect);
-  SDL_RenderPresent(renderer);
-  return true;
-}
-
-bool isOnButton(Uint32 x,Uint32 y){
-  if (x>=357&&x<=564)
-    if (y>=196&&y<=322)    return true;
-  return false;
-}
-
 int main(int argc, char* argv[]){
-  if (! sys_Init())       halt();
+  if (!sys_Init())       halt();
   if (!DrawBackGround())  halt();
-  if (!PutButton())        halt();
+  if (!playbutton.PutButton("play.jpg",renderer))       halt();
   SDL_Event windowEvent; // SDL窗口事件
   bool quit=false;
   while(!quit) {
@@ -87,7 +69,7 @@ int main(int argc, char* argv[]){
 	break;
       case SDL_MOUSEBUTTONDOWN:
 	if (windowEvent.button.button==SDL_BUTTON_LEFT)
-	  if (isOnButton(windowEvent.button.x,windowEvent.button.y))
+	  if (playbutton.isOnButton(windowEvent.button.x,windowEvent.button.y))
 	    cout << "is on the play button!"  << endl;
 	break;
       }
