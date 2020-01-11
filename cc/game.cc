@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 Game::Game(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Texture* bombe,TTF_Font* Font):renderer(renderer),texture(texture),bombe(bombe),Font(Font){
   Score	= 0;
   level = 1;
@@ -14,44 +16,56 @@ void Game::Init(){
   int n=rand()%17;
   int t=rand()%17;
   int i=rand()%17;
-  FocusTaupe = Taupe(position_X[m],position_Y[m], 1, texture);
-  NextTaupe  = Taupe(position_X[n],position_Y[n], 1, texture);
-  FocusBombe = Bombe(position_X[t],position_Y[t], -1, bombe);
-  NextBombe = Bombe(position_X[i],position_Y[i], -1, bombe);
+  FocusTaupe.push_back(Taupe(position_X[m],position_Y[m], 1, texture));
+  NextTaupe.push_back(Taupe(position_X[n],position_Y[n], 1, texture));
+  FocusBombe.push_back(Bombe(position_X[t],position_Y[t], -1, bombe));
+  NextBombe.push_back(Bombe(position_X[i],position_Y[i], -1, bombe));
 }
 
 void Game::ChangeFocusTaupe(){
   srand((unsigned int)time(0));
-  int m=rand()%17;
-  FocusTaupe.~Taupe();
-  FocusTaupe = Taupe(NextTaupe);
-  NextTaupe.~Taupe();
-  NextTaupe = Taupe(position_X[m],position_Y[m], 1, texture);
+  int m;
+  FocusTaupe.assign(NextTaupe.begin(), NextTaupe.end());
+  NextTaupe.clear();
+  for(int i=0;i<level;i++)
+    m=rand()%17;
+    NextTaupe.push_back(Taupe(position_X[m],position_Y[m], 1, texture));
 }
 
 void Game::ChangeFocusBombe(){
   srand((unsigned int)time(0));
-  int m=rand()%17;
-  FocusBombe.~Bombe();
-  FocusBombe = Bombe(NextBombe);
-  NextBombe.~Bombe();
-  NextBombe = Bombe(position_X[m],position_Y[m], -1, bombe);
+  int m;
+  FocusBombe.assign(NextBombe.begin(), NextBombe.end());
+  NextBombe.clear();
+  for(int i=0;i<level;i++)
+    m=rand()%17;
+    NextBombe.push_back(Bombe(position_X[m],position_Y[m], -1, bombe));
 }
 
-bool Game::HitTaupe(int x,int y){
-  if(((FocusTaupe.position_x<x)&&(x<FocusTaupe.position_x+TAUPE_WIDTH)&&(FocusTaupe.position_y <y)&&(y<FocusTaupe.position_y+TAUPE_HEIGHT)) && FocusTaupe.present==1){
-    Score+=FocusTaupe.note;
-    return true;
+void Game::HitTaupe(int x,int y){
+  static int counter_taupe = 0;
+  for(auto& iter:FocusTaupe){
+    if(((iter.position_x<x)&&(x<iter.position_x+TAUPE_WIDTH)&&(iter.position_y <y)&&(y<iter.position_y+TAUPE_HEIGHT)) && iter.present==1){
+      Score+=iter.note;
+      Hittaupe[counter_taupe]=1;
+    }
+    else Hittaupe[counter_taupe]=0;
+    counter_taupe++;
   }
-  else return false;
+  counter_taupe=0;
 }
 
-bool Game::HitBombe(int x,int y){
-  if(((FocusBombe.position_x<x)&&(x<FocusBombe.position_x+BOMBE_WIDTH)&&(FocusBombe.position_y <y)&&(y<FocusBombe.position_y+BOMBE_HEIGHT)) && FocusBombe.present==1){
-    Score+=FocusBombe.note;
-    return true;
+void Game::HitBombe(int x,int y){
+  static int counter_bombe = 0;
+  for(auto& iter:FocusBombe){
+    if(((iter.position_x<x)&&(x<iter.position_x+BOMBE_WIDTH)&&(iter.position_y <y)&&(y<iter.position_y+BOMBE_HEIGHT)) && iter.present==1){
+      Score+=iter.note;
+      Hitbombe[counter_bombe]=1;
+    }
+    else Hitbombe[counter_bombe]=0;
+    counter_bombe++;
   }
-  else return false;
+  counter_bombe=0;
 }
 
 bool Game::Pass(int time){
@@ -78,16 +92,28 @@ void Game::Draw_text(std::string message, int x, int y){
 
 void Game::Draw(SDL_Texture* texture,SDL_Texture* bombe,int Time){
   srand((unsigned int)time(0));
-  int type=rand()%100;
-  if(type%2==0){
-    FocusTaupe.DrawToRenderer(renderer,texture);
-    FocusBombe.present=0;
-    FocusTaupe.present=1;
+  int type=rand()%12;
+  if(type<10){
+    for(auto& iterbombe:FocusBombe){
+      iterbombe.present=0;
+    };
+    
+    for(auto& itertaupe:FocusTaupe){
+      itertaupe.DrawToRenderer(renderer,texture);
+      itertaupe.present=1;
+      sleep(0.5);
+    }
   }
   else{
-    FocusBombe.DrawToRenderer(renderer,bombe);
-    FocusTaupe.present=0;
-    FocusBombe.present=1;
+    for(auto& iterbombe:FocusBombe){
+      iterbombe.DrawToRenderer(renderer,bombe);
+      iterbombe.present=1;
+      sleep(0.5);
+    };
+    for(auto& itertaupe:FocusTaupe){
+      itertaupe.present=0;
+    }
+    
   }
   string cur_score;
   cur_score = "CURRENT SCORE:" + std::to_string(Score);
@@ -107,4 +133,8 @@ Game::~Game(void){
   SDL_DestroyTexture(texture);
   SDL_DestroyTexture(bombe);
   SDL_DestroyRenderer(renderer);
+  FocusTaupe.clear();
+  NextTaupe.clear();
+  FocusBombe.clear();
+  NextBombe.clear();
 }

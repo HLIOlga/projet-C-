@@ -16,6 +16,7 @@ public:
 	~Window(void);
 
 	void Start();
+        void BeginWindow();
         void Timecounter();
         void GameBegin();
 	void Refresh();		      
@@ -26,6 +27,10 @@ public:
 	void ResetGame();
 	//SDL_Texture* Draw_text(std::string message);
         void Draw_text(std::string message,int x,int y);
+        void GameModeChoix(SDL_Event event);
+        void ModeSInit(SDL_Event event);
+        void ModeIInit(SDL_Event event);
+        void ModePInit(SDL_Event event);
 
 protected:
 	SDL_Window * win=NULL;

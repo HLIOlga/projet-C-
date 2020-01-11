@@ -3,6 +3,7 @@
 #include <time.h>
 #include <vector>
 #include <SDL_ttf.h>
+#include <unistd.h>
 #include "taupe.hh"
 #include "bombe.hh"
 
@@ -18,21 +19,23 @@ public:
   void ChangeFocusTaupe();
   void ChangeFocusBombe();
   virtual void Move(SDL_Texture* texture,SDL_Texture* bombe,int time) = 0;
-  bool HitTaupe(int x,int y);
-  bool HitBombe(int x,int y);
+  void HitTaupe(int x,int y);
+  void HitBombe(int x,int y);
   bool Pass(int time);
   
   int level;
+  int Hittaupe[13];
+  int Hitbombe[13];
+
 private:
-  //vector<Taupe> gametaupe;
   SDL_Renderer* renderer;
   SDL_Texture* texture;
   SDL_Texture* bombe;
   TTF_Font* Font;
-  Taupe FocusTaupe;
-  Taupe NextTaupe;
-  Bombe FocusBombe;
-  Bombe NextBombe;
-
+  
+  vector<Taupe> FocusTaupe;
+  vector<Taupe> NextTaupe;
+  vector<Bombe> FocusBombe;
+  vector<Bombe> NextBombe;
   int Score;
 };
