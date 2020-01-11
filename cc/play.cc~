@@ -1,0 +1,36 @@
+#include "play.hh"
+
+Play::Play( int x, int y, int w, int h )
+{
+    //Set the button's attributes
+    box.x = x;
+    box.y = y;
+    box.w = w;
+    box.h = h;
+}
+
+bool Play::PutButton(SDL_Renderer* _renderer) {
+  playbutton = IMG_Load("play.jpg");
+  Uint32 color_key=SDL_MapRGB(playbutton->format,255,255,255);
+  SDL_SetColorKey(playbutton,SDL_TRUE,color_key);
+  if (playbutton==NULL)    return false;
+  playtext=SDL_CreateTextureFromSurface(_renderer,playbutton);
+  SDL_RenderCopy(_renderer,playtext,NULL,&_box);
+  SDL_RenderPresent(_renderer);
+  return true;
+}
+
+bool Play::isOnButton(int x,int y) {
+  if (x>=_box.x && x<= (_box.x+_box.w))
+    if (y>=_box.y && y<=(_box.y+_box.h))    return true;
+  return false;
+}
+
+void Play::freeButton(){
+  SDL_DestroyTexture(playtext);
+  SDL_FreeSurface(playbutton);
+  _box.x=0;
+  _box.y=0;
+  _box.w=0;
+  _box.h=0;
+}

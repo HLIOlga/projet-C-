@@ -1,0 +1,36 @@
+#pragma once
+
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <iostream>
+//#include "game.hh"
+
+using namespace std;
+
+class Window{
+public:
+	Window(void);
+	~Window(void);
+
+	void Start();
+        void GameBegin();
+	void Refresh();		      
+	void Update();  
+	void LoadResouceFile(); 
+	SDL_Texture* Load_image(std::string FilePath);
+	void Init();
+	void ResetGame();
+	SDL_Texture* Draw_text(std::string message);
+
+protected:
+	SDL_Window * win=NULL;
+	SDL_Renderer* renderer=NULL; 
+	SDL_Texture* taupe=NULL;
+	SDL_Texture* play=NULL;
+	SDL_Texture* windows=NULL;
+	
+	TTF_Font* Font=NULL;
+        bool gameRunning = false;
+        bool quit=false;
+	//Game* game;
+};

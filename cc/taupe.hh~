@@ -1,0 +1,21 @@
+#pragma once
+
+#include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include "Defines.hh"
+
+class Taupe{
+public:
+  Taupe();
+  Taupe(int x,int y,int niveau,SDL_Texture* texture);
+  ~Taupe();
+
+  void DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture);
+  int position_x;
+  int position_y;
+  int note;
+private:
+  SDL_Texture* texture=NULL;
+};

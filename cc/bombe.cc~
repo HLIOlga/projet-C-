@@ -1,0 +1,21 @@
+#include "bombe.hh"
+
+Bombe::Bombe(){
+  position_x=0;
+  position_y=0;
+  note=1;
+}
+Bombe::Bombe(int x,int y,int niveau,SDL_Texture* texture){
+  position_x=x;
+  position_y=y;
+  note=niveau;
+}
+
+Bombe::~Bombe(){}
+
+void Bombe::DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture){
+  int width = 0, height = 0;
+  SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+  SDL_Rect rect = {position_x,position_y,TAUPE_WIDTH,TAUPE_HEIGHT};
+  SDL_RenderCopy(renderer, texture, NULL, &rect);
+}

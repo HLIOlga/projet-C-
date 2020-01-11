@@ -1,0 +1,8 @@
+#include "position.hh"
+
+void InitPosition(){
+  position[0][0]=230;
+  position[0][0]=50;
+  //position[1]=;
+   
+}
