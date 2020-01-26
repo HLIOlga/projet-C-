@@ -160,6 +160,9 @@ void Window::ModeSInit(SDL_Event event){
     if(simplegame->Hitbombe[i]==1)
       cout << "Hit Bombe"  << endl;
   }
+  UpdateHit();
+  Refresh();
+  SDL_Delay(500);
 }
 
 void Window::ModeIInit(SDL_Event event){
@@ -174,6 +177,9 @@ void Window::ModeIInit(SDL_Event event){
       Time =0;
     }
   }
+  UpdateHit();
+  Refresh();
+  SDL_Delay(500);
 }
 
 void Window::ModePInit(SDL_Event event){
@@ -194,6 +200,9 @@ void Window::ModePInit(SDL_Event event){
     gameRunning = false;
     Time=0;
   }
+  UpdateHit();
+  Refresh();
+  SDL_Delay(500);
 }
 
 void Window::Refresh(){
@@ -226,6 +235,20 @@ void Window::BeginWindow(){
   SDL_QueryTexture(play, NULL, NULL, &width, &height);
   SDL_Rect rect = {PLAY_POSITION_x, PLAY_POSITION_y, PLAY_WIDTH,PLAY_HEIGHT};
   SDL_RenderCopy(renderer, play, NULL, &rect);
+}
+
+void Window::UpdateHit(){
+  switch(mode){
+    case 'S':
+      simplegame->HitMove(taupe,taupefuite,bombe,taupeHit,smoke,Time);
+      break;
+    case 'I':
+      infiniegame->HitMove(taupe,taupefuite,bombe,taupeHit,smoke,Time);
+      break;
+    case 'P':
+      promugame->HitMove(taupe,taupefuite,bombe,taupeHit,smoke,Time);
+      break;
+  }
 }
 
 void Window::Update(){
@@ -263,9 +286,12 @@ void Window::Update(){
 
 void Window::LoadResouceFile(){
   play = Load_image("play.jpg");
-  taupe = Load_image("mole.png");
+  taupe = Load_image("mole.jpg");
+  taupeHit = Load_image("molehit.jpg");
+  taupefuite = Load_image("molefuite.jpg");
   bombe = Load_image("bombe.jpg");
   windows = Load_image("windows.jpeg");
+  smoke = Load_image("smoke.jpeg");
   gameover = Load_image("gameover.png");
   mode_s = Load_image("rect.png");
   mode_i = Load_image("rect.png");
@@ -305,8 +331,11 @@ Window::~Window(void){
   TTF_Quit();
   SDL_DestroyTexture(play);
   SDL_DestroyTexture(taupe);
+  SDL_DestroyTexture(taupeHit);
+  SDL_DestroyTexture(taupefuite);
   SDL_DestroyTexture(windows);
   SDL_DestroyTexture(bombe);
+  SDL_DestroyTexture(smoke);
   SDL_DestroyTexture(gameover);
   SDL_DestroyTexture(mode_s);
   SDL_DestroyTexture(mode_i);

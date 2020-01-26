@@ -21,6 +21,7 @@ public:
         void GameBegin();
 	void Refresh();		      
 	void Update();  
+        void UpdateHit();  
 	void LoadResouceFile(); 
 	SDL_Texture* Load_image(std::string FilePath);
 	void Init();
@@ -36,9 +37,12 @@ protected:
 	SDL_Window * win=NULL;
 	SDL_Renderer* renderer=NULL; 
 	SDL_Texture* taupe=NULL;
+        SDL_Texture* taupeHit=NULL;
+        SDL_Texture* taupefuite=NULL;
         SDL_Texture* bombe=NULL;
 	SDL_Texture* play=NULL;
 	SDL_Texture* windows=NULL;
+        SDL_Texture* smoke=NULL;
 	SDL_Texture* gameover=NULL;
         SDL_Texture* mode_s=NULL;
         SDL_Texture* mode_i=NULL;

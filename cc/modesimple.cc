@@ -11,3 +11,9 @@ void Modesimple::Move(SDL_Texture* texture,SDL_Texture* bombe,int time){
     Draw(texture,bombe,time);
   }
 }
+
+void Modesimple::HitMove(SDL_Texture* texture,SDL_Texture* taupefuite,SDL_Texture* bombe,SDL_Texture* taupehit,SDL_Texture* smoke,int time){
+  static int Game_counter2 = 0;
+  Game_counter2++;
+  DrawHit(taupehit,taupefuite,smoke,time);
+}

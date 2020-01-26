@@ -33,3 +33,4 @@ void Modeinfinie::Move(SDL_Texture* texture,SDL_Texture* bombe,int time){
     }
   }
 }
+

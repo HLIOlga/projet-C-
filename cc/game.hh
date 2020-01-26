@@ -15,6 +15,7 @@ public:
   ~Game(void);
   void Init();
   void Draw(SDL_Texture* texture,SDL_Texture* bombe,int Time);
+  void DrawHit(SDL_Texture* texture,SDL_Texture* taupefuite,SDL_Texture* bombe,int Time);
   void Draw_text(std::string message, int x, int y);
   void ChangeFocusTaupe();
   void ChangeFocusBombe();
@@ -26,6 +27,10 @@ public:
   int level;
   int Hittaupe[13];
   int Hitbombe[13];
+  vector<Taupe> FocusTaupe;
+  vector<Taupe> NextTaupe;
+  vector<Bombe> FocusBombe;
+  vector<Bombe> NextBombe;
 
 private:
   SDL_Renderer* renderer;
@@ -33,9 +38,6 @@ private:
   SDL_Texture* bombe;
   TTF_Font* Font;
   
-  vector<Taupe> FocusTaupe;
-  vector<Taupe> NextTaupe;
-  vector<Bombe> FocusBombe;
-  vector<Bombe> NextBombe;
   int Score;
 };
+
