@@ -10,3 +10,9 @@ void Taupe::DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture){
   SDL_Rect rect = {position_x,position_y,TAUPE_WIDTH,TAUPE_HEIGHT};
   SDL_RenderCopy(renderer, texture, NULL, &rect);
 }
+
+int operator +(int x,Taupe& taupe){
+  int str;
+  str= x + taupe.note;
+  return str;
+}

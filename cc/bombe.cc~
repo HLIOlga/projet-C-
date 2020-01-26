@@ -1,17 +1,8 @@
 #include "bombe.hh"
 
-Bombe::Bombe(){
-  position_x=0;
-  position_y=0;
-  note=1;
+Bombe::~Bombe(){
+  SDL_DestroyTexture(texture);
 }
-Bombe::Bombe(int x,int y,int niveau,SDL_Texture* texture){
-  position_x=x;
-  position_y=y;
-  note=niveau;
-}
-
-Bombe::~Bombe(){}
 
 void Bombe::DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture){
   int width = 0, height = 0;

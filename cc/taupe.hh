@@ -13,8 +13,11 @@ public:
   Taupe(int x,int y,int niveau,SDL_Texture* texture):Role(x,y,niveau,texture){}
   Taupe(const Taupe& taupe):Role(taupe.position_x,taupe.position_y,taupe.note,NULL){}
   ~Taupe();
+  friend int operator +(int x,Taupe& taupe);
 
   void DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture);
 private:
   SDL_Texture* texture=NULL;
 };
+
+extern int operator +(int x,Taupe& taupe);

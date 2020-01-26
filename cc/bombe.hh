@@ -12,8 +12,11 @@ public:
   Bombe():Role(0,0,1,NULL){}
   Bombe(int x,int y,int niveau,SDL_Texture* texture):Role(x,y,niveau,texture){}
   ~Bombe();
+  friend int operator +(int x,Bombe& bombe);
 
   void DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture);
 private:
   SDL_Texture* texture=NULL;
 };
+
+extern int operator +(int x,Bombe& bombe);
