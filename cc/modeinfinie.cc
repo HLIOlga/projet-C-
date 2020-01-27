@@ -1,5 +1,6 @@
 #include "modeinfinie.hh"
 
+//le changement de la taupe et la bombe va devenir le plus en plus vite au cours du temps
 void Modeinfinie::Move(SDL_Texture* texture,SDL_Texture* bombe,int time){
   static int Game_counter = 0;
   Game_counter++;

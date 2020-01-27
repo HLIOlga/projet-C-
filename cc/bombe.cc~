@@ -10,3 +10,9 @@ void Bombe::DrawToRenderer(SDL_Renderer* renderer,SDL_Texture* texture){
   SDL_Rect rect = {position_x,position_y,TAUPE_WIDTH,TAUPE_HEIGHT};
   SDL_RenderCopy(renderer, texture, NULL, &rect);
 }
+
+int operator +(int x,Bombe& bombe){
+  int str;
+  str= x + bombe.note;
+  return str;
+}

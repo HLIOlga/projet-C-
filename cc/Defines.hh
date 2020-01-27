@@ -1,18 +1,17 @@
 
 /*
-define const values
+défine const values
 */
 
-// 定义窗口常量
-#define WINDOW_CAPTION		"jeu de taupe"		// 窗口标题
-#define WINDOW_WIDTH		920				// 窗口宽度
-#define WINDOW_HEIGHT		518				// 窗口高度
+//définir les constantes du fenêtre
+#define WINDOW_CAPTION		"jeu de taupe"		// titre du fenêtre
+#define WINDOW_WIDTH		920		        // largeur du fenêtre
+#define WINDOW_HEIGHT		518			// hauteur du fenêtre
 
-
-// 背景图片绘制位置
-#define WINDOWS_POSITION_x		0		        // 背景图片1
-#define WINDOWS_POSITION_y		0
-#define WINFIN_POSITION_x		18		        // 背景图片1
+//définir les constantes des composants
+#define WINDOWS_POSITION_x		0		//arrière-plan du jeu      
+#define WINDOWS_POSITION_y		0               
+#define WINFIN_POSITION_x		18		//arrière-plan de la fin du jeu      
 #define WINFIN_POSITION_y		7
 #define PLAY_POSITION_x                 357
 #define PLAY_POSITION_y                 324

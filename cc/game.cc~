@@ -48,7 +48,7 @@ void Game::HitTaupe(int x,int y){
   static int counter_taupe = 0;
   for(auto& iter:FocusTaupe){
     if((((iter.position_x<x)&&(x<iter.position_x+TAUPE_WIDTH))&&((iter.position_y <y)&&(y<iter.position_y+TAUPE_HEIGHT))) && iter.present==1){
-      Score+=iter.note;
+      Score=Score+iter;
       Hittaupe[counter_taupe]=1;
     }
     else Hittaupe[counter_taupe]=0;
@@ -61,7 +61,7 @@ void Game::HitBombe(int x,int y){
   static int counter_bombe = 0;
   for(auto& iter:FocusBombe){
     if((((iter.position_x<x)&&(x<iter.position_x+BOMBE_WIDTH))&&((iter.position_y <y)&&(y<iter.position_y+BOMBE_HEIGHT))) && iter.present==1){
-      Score+=iter.note;
+      Score=Score+iter;
       Hitbombe[counter_bombe]=1;
     }
     else Hitbombe[counter_bombe]=0;

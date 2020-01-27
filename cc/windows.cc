@@ -1,6 +1,7 @@
 #include "windows.hh"
 #include "Defines.hh"
 
+//pour creer la fenetre du jeu
 Window::Window(void){
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
     cout << "SDL_Init Error: " << SDL_GetError() << endl;
@@ -24,6 +25,7 @@ Window::Window(void){
   Refresh();
 }
 
+//pour initialiser la fenetre du jeu en prenant le mode choisi par le joueur
 void Window::Init(){
   switch(mode){
   case 'S':
@@ -48,6 +50,7 @@ void Window::ResetGame(){
   // do something
 }
 
+//la fenetre du start, pour presenter les modes du jeu et le boutton play
 void Window::Start(){
   SDL_Event event;
   while(!quit){
@@ -74,6 +77,7 @@ void Window::Start(){
   }
 }
 
+///pour initialiser la mode du jeu en prenant le mode choisi par le joueur
 void Window::GameModeChoix(SDL_Event event){
   if ((MODE_S_POSITION_x<event.button.x)&&(event.button.x<MODE_S_POSITION_x+MODE_S_WIDTH)
       &&(MODE_S_POSITION_y <event.button.y)&&(event.button.y<MODE_S_POSITION_y+MODE_S_HEIGHT)){
@@ -92,6 +96,7 @@ void Window::GameModeChoix(SDL_Event event){
   }
 }
 
+//la fonction pour realiser le timer,afin de visualiser le temps
 void Window::Timecounter(){
   static int Time_counter=0;
   Time_counter++;
@@ -101,6 +106,7 @@ void Window::Timecounter(){
   }
 }
 
+//le principe boucle du jeu
 void Window::GameBegin(){
   SDL_Event event; 
   while(gameRunning){
@@ -151,6 +157,7 @@ void Window::GameBegin(){
   }
 }
 
+//dans la delai du temps,le joueur peut s'exercer pour obtenir les scores plus eleves
 void Window::ModeSInit(SDL_Event event){
   simplegame->HitTaupe(event.button.x,event.button.y);
   simplegame->HitBombe(event.button.x,event.button.y);
@@ -165,6 +172,7 @@ void Window::ModeSInit(SDL_Event event){
   SDL_Delay(500);
 }
 
+//dans ce mode la,il n'y a pas le delai du temps,mais le changement de la taupe et la bombe va plus en plus vite,une fois le joueur frappe sur le bombe, le jeu se termine
 void Window::ModeIInit(SDL_Event event){
   infiniegame->HitTaupe(event.button.x,event.button.y);
   infiniegame->HitBombe(event.button.x,event.button.y);
@@ -182,6 +190,8 @@ void Window::ModeIInit(SDL_Event event){
   SDL_Delay(500);
 }
 
+//initialisation de la mode promu,si le joueur termine la tache de score specifiee dans le delai,dans ce cas on considere comme une passe
+//sinon le jeu se termine.Et si le joueur passe tous les niveaux du jeu,le jeu se termine aussi
 void Window::ModePInit(SDL_Event event){
   promugame->HitTaupe(event.button.x,event.button.y);
   promugame->HitBombe(event.button.x,event.button.y);
@@ -209,14 +219,16 @@ void Window::Refresh(){
   SDL_RenderPresent(renderer);
 }
 
+//pour definir les composants qui doivent affichier sur la fenetre du start
 void Window::BeginWindow(){
   
   int width = 0, height = 0;
-  
+  //l'arriere-plan de la fenetre du start
   SDL_QueryTexture(windows, NULL, NULL, &width, &height);
   SDL_Rect rect3 = {WINDOWS_POSITION_x, WINDOWS_POSITION_y, width, height};
   SDL_RenderCopy(renderer, windows, NULL, &rect3);
 
+  //les boutton du mode pour la selection du joueur
   SDL_QueryTexture(mode_s, NULL, NULL, &width, &height);
   SDL_Rect rect5 = {MODE_S_POSITION_x, MODE_S_POSITION_y, width, height};
   SDL_RenderCopy(renderer, mode_s, NULL, &rect5);
@@ -232,11 +244,13 @@ void Window::BeginWindow(){
   SDL_RenderCopy(renderer, mode_p, NULL, &rect7);
   Draw_text("MODE PROMU",MODE_P_POSITION_x+50, MODE_P_POSITION_y+160);
 
+  //le boutton play pour commencer le jeu
   SDL_QueryTexture(play, NULL, NULL, &width, &height);
   SDL_Rect rect = {PLAY_POSITION_x, PLAY_POSITION_y, PLAY_WIDTH,PLAY_HEIGHT};
   SDL_RenderCopy(renderer, play, NULL, &rect);
 }
 
+//pour affichier le changement apres les actions du joueur
 void Window::UpdateHit(){
   switch(mode){
     case 'S':
@@ -251,20 +265,24 @@ void Window::UpdateHit(){
   }
 }
 
+//pour mettre a jour la fenetre
 void Window::Update(){
   SDL_RenderClear(renderer);
    int width = 0, height = 0;
   
   if(!gameRunning){
+    //affichier la fenetre du start
     if(Time==60 || Time == -1){
       BeginWindow();
     }
+    //affichier la fenetre de la fin du jeu
     if(Time==0){
       SDL_QueryTexture(gameover, NULL, NULL, &width, &height);
       SDL_Rect rect4 = {WINFIN_POSITION_x,WINFIN_POSITION_y, width, height};
       SDL_RenderCopy(renderer, gameover, NULL, &rect4);
     }
   }
+  //affichier le changement du jeu
   else{
     SDL_QueryTexture(windows, NULL, NULL, &width, &height);
     SDL_Rect rect2 = {WINDOWS_POSITION_x, WINDOWS_POSITION_y, width, height};
@@ -284,6 +302,7 @@ void Window::Update(){
   }
 }
 
+//pour importer tous les fichiers graphiques
 void Window::LoadResouceFile(){
   play = Load_image("play.jpg");
   taupe = Load_image("mole.jpg");
@@ -298,7 +317,7 @@ void Window::LoadResouceFile(){
   mode_p = Load_image("rect.png");
 }
 
-
+//la fonction pour realiser d'importer du fichier graphiques
 SDL_Texture* Window::Load_image(std::string FilePath){
   SDL_Surface* picture = nullptr;
 
@@ -313,6 +332,7 @@ SDL_Texture* Window::Load_image(std::string FilePath){
   return result;
 }
 
+//pour affichier les messages dans la fenetre
 void Window::Draw_text(std::string message,int x,int y){
   SDL_Color color = { 0, 0, 0 };
   SDL_Surface* surface = TTF_RenderText_Blended(Font, message.c_str(), color);
