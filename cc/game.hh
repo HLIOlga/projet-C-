@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <vector>
+#include <list>
 #include <SDL_ttf.h>
 #include <unistd.h>
 #include "taupe.hh"
@@ -29,8 +30,8 @@ public:
   int Hitbombe[13];
   vector<Taupe> FocusTaupe;
   vector<Taupe> NextTaupe;
-  vector<Bombe> FocusBombe;
-  vector<Bombe> NextBombe;
+  list<Bombe> FocusBombe;
+  list<Bombe> NextBombe;
 
 private:
   SDL_Renderer* renderer;
